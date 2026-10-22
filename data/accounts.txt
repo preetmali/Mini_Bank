@@ -1,0 +1,8 @@
+AC1001|Mali|SavingsAccount|3190.0
+AC1002|Mali|CurrentAccount|5000.0
+AC1003|Mali|FixedDepositAccount|7000.0
+AC1004|mali hemant|CurrentAccount|50000.0
+AC1005|deep|FixedDepositAccount|55000.0
+AC1006|mali Preet|SavingsAccount|5000.0
+AC1007|mali|SavingsAccount|6000.0
+AC1008|mali|SavingsAccount|6000.0

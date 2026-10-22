@@ -1,0 +1,10 @@
+public enum MenuOption {
+    OPEN_ACCOUNT,
+    DEPOSIT,
+    WITHDRAW,
+    TRANSFER,
+    LIST_ACCOUNTS,
+    ACCOUNT_INFORMATION,
+    DELETE_ACCOUNT,
+    EXIT
+}
