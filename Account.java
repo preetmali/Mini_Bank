@@ -30,6 +30,29 @@ public abstract class Account implements Comparable<Account> {
         this.accountNumber = Objects.requireNonNull(accountNumber);
         this.customerName = Validator.requireText(customerName, "Customer name");
         this.balance = openingBalance;
+
+        updateNextNumber(accountNumber);
+    }
+
+    public static void updateNextNumber(String accountNumber) {
+
+        if (accountNumber == null || !accountNumber.startsWith("AC")) {
+            return;
+        }
+
+        try {
+            int number = Integer.parseInt(accountNumber.substring(2));
+
+            if (number < 1001) {
+                return;
+            }
+
+            NEXT_NUMBER.updateAndGet(
+                    current -> Math.max(current, number + 1));
+
+        } catch (NumberFormatException e) {
+            // Ignore account numbers that do not follow AC<number>.
+        }
     }
 
     public abstract double interestRate();
@@ -42,7 +65,8 @@ public abstract class Account implements Comparable<Account> {
         Validator.requireAmount(amount);
 
         if (!Double.isFinite(balance + amount)) {
-            throw new InvalidAmountException("Balance limit exceeded.");
+            throw new InvalidAmountException(
+                    "Balance limit exceeded.");
         }
 
         balance += amount;
@@ -55,7 +79,7 @@ public abstract class Account implements Comparable<Account> {
 
         if (!canWithdraw(amount)) {
             throw new InsufficientBalanceException(
-                    "Insufficient balance or withdrawal not allowed.");
+                    "Insufficient balance or account rules do not allow withdrawal.");
         }
 
         balance -= amount;
@@ -79,7 +103,9 @@ public abstract class Account implements Comparable<Account> {
 
     @Override
     public int compareTo(Account other) {
-        return Double.compare(other.getBalance(), getBalance());
+        return Double.compare(
+                other.getBalance(),
+                this.getBalance());
     }
 
     @Override
@@ -90,4 +116,5 @@ public abstract class Account implements Comparable<Account> {
                 + " | Balance: " + String.format("%.2f", getBalance())
                 + " | Interest: " + interestRate() + "%";
     }
+
 }

@@ -63,6 +63,7 @@ public class PersistenceService {
                 file, StandardCharsets.UTF_8);
 
         for (int i = 0; i < lines.size(); i++) {
+
             String line = lines.get(i).trim();
 
             if (line.isEmpty()) {
@@ -76,32 +77,46 @@ public class PersistenceService {
                         "Invalid account data at line " + (i + 1));
             }
 
-            String id = parts[0];
-            String name = parts[1];
-            String type = parts[2];
+            String id = parts[0].trim();
+            String name = parts[1].trim();
+            String type = parts[2].trim();
+
             double balance;
 
             try {
-                balance = Double.parseDouble(parts[3]);
+                balance = Double.parseDouble(parts[3].trim());
             } catch (NumberFormatException e) {
                 throw new IOException(
                         "Invalid balance at line " + (i + 1), e);
             }
 
+            if (id.isEmpty() || name.isEmpty()) {
+                throw new IOException(
+                        "Account number or customer name is empty at line "
+                                + (i + 1));
+            }
+
             Account account = switch (type) {
+
                 case "SavingsAccount" ->
                     new SavingsAccount(id, name, balance);
+
                 case "CurrentAccount" ->
                     new CurrentAccount(id, name, balance);
+
                 case "FixedDepositAccount" ->
                     new FixedDepositAccount(id, name, balance);
+
                 default -> throw new IOException(
                         "Unknown account type at line " + (i + 1));
             };
+
+            Account.updateNextNumber(id);
 
             accounts.add(account);
         }
 
         return accounts;
     }
+
 }

@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class MiniBank {
 
-    private static final BankInfo BANK = new BankInfo("CHARUSAT MiniBank", "Changa");
+    private static final BankInfo BANK = new BankInfo("MiniBank", "Charusat");
 
     private static final Path DATA_FILE = Path.of("data", "accounts.txt");
 
@@ -70,7 +70,7 @@ public class MiniBank {
                             save(processor, persistence);
                             running = false;
                             System.out.println(
-                                    "Thank you for using MiniBank. Goodbye!");
+                                    "Thank you for using MiniBank.!");
                         }
                     }
 
